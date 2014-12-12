@@ -1,21 +1,21 @@
-## 自定义网桥
-除了默认的 `docker0` 网桥，用户也可以指定网桥来连接各个容器。
+## 自定義橋接器
+除了預設的 `docker0` 橋接器，使用者也可以指定橋接器來連接各個容器。
 
-在启动 Docker 服务的时候，使用 `-b BRIDGE`或`--bridge=BRIDGE` 来指定使用的网桥。
+在啟動 Docker 服務的時候，使用 `-b BRIDGE`或`--bridge=BRIDGE` 來指定使用的橋接器。
 
-如果服务已经运行，那需要先停止服务，并删除旧的网桥。
+如果服務已經執行，那需要先停止服務，並刪除舊的橋接器。
 ```
 $ sudo service docker stop
 $ sudo ip link set dev docker0 down
 $ sudo brctl delbr docker0
 ```
-然后创建一个网桥 `bridge0`。
+然後建立一個橋接器 `bridge0`。
 ```
 $ sudo brctl addbr bridge0
 $ sudo ip addr add 192.168.5.1/24 dev bridge0
 $ sudo ip link set dev bridge0 up
 ```
-查看确认网桥创建并启动。
+查看確認橋接器建立並啟動。
 ```
 $ ip addr show bridge0
 4: bridge0: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state UP group default
@@ -23,12 +23,12 @@ $ ip addr show bridge0
     inet 192.168.5.1/24 scope global bridge0
        valid_lft forever preferred_lft forever
 ```
-配置 Docker 服务，默认桥接到创建的网桥上。
+設定 Docker 服務，預設橋接到建立的橋接器上。
 ```
 $ echo 'DOCKER_OPTS="-b=bridge0"' >> /etc/default/docker
 $ sudo service docker start
 ```
-启动 Docker 服务。
-新建一个容器，可以看到它已经桥接到了 `bridge0` 上。
+啟動 Docker 服務。
+新建一個容器，可以看到它已經橋接到了 `bridge0` 上。
 
-可以继续用 `brctl show` 命令查看桥接的信息。另外，在容器中可以使用 `ip addr` 和 `ip route` 命令来查看 IP 地址配置和路由信息。
+可以繼續用 `brctl show` 命令查看橋接的訊息。另外，在容器中可以使用 `ip addr` 和 `ip route` 命令來查看 IP 位址設定和路由訊息。

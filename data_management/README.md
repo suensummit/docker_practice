@@ -1,4 +1,4 @@
-# Docker 数据管理
-这一章介绍如何在 Docker 内部以及容器之间管理数据，在容器中管理数据主要有两种方式：
-* 数据卷（Data volumes）
-* 数据卷容器（Data volume containers）
+# Docker 資料管理
+這一章介紹如何在 Docker 內部以及容器之間管理資料，在容器中管理資料主要有兩種方式：
+* 資料卷（Data volumes）
+* 資料卷容器（Data volume containers）
